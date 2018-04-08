@@ -1,22 +1,17 @@
-import chai from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
+import {expect} from "chai";
+import sinon from "sinon";
 import Tada from '../src/index';
 
-// chai.should();
-chai.use(sinonChai);
-const expect = chai.expec; // expect ?
-
-
-describe('initial test', function() {
+describe('initial test', () => {
   let sandbox;
   let spyConfig;
   let spyController;
+  let stubConfig  = {a: 'blabla'};
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    spyConfig = sandbox.stub(Tada.prototype, '_createConfig').callsFake(() => 1);
-    spyController = sandbox.stub(Tada.prototype, '_loadController').callsFake(() => 1);
+    spyConfig = sandbox.stub(Tada.prototype, '_createConfig').returns(stubConfig);
+    spyController = sandbox.stub(Tada.prototype, '_loadController');
   });
 
   afterEach(() => {
@@ -25,25 +20,24 @@ describe('initial test', function() {
     spyController = null;
   });
 
-  describe('when create instance of Tada >> ', function () {
-    it('invoke `_createConfig` function', function () {
+  describe('when create instance of Tada >> ', () => {
+    it('invoke `_createConfig` function', () => {
       //given
       const option = { selector: '.tada-class' };
       //when
       const tada = new Tada(option);
       //then
-      spyConfig.calledWith(option).should.be.true;
+      expect(spyConfig.calledWith(option)).to.be.true;
     });
 
     //!!!this test case is not working
-    it('invoke `_loadController` function', function () {
+    it('invoke `_loadController` function', () => {
       //given
-      const config = { a: 'blah' };
       const option = { selector: '.tada-class' };
       //when
       const tada = new Tada(option);
       //then
-      spyController.calledWith(config).should.be.true;
+      expect(spyController.calledWith(stubConfig)).to.be.true;
     });
   });
 
