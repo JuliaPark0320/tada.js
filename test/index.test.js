@@ -2,10 +2,6 @@ import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import Tada from '../src/index';
-import Controller from '../src/scripts/Controller';
-import Config from '../src/scripts/Config';
-
-import { DEFAULT_OPTION } from "../src/scripts/Consts";
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -15,7 +11,6 @@ describe('initial test', function() {
   let sandbox;
   let spyConfig;
   let spyController;
-  let fakeConfig = {fake: 'config'}
   let fixture;
 
   const createFixture = function (){
@@ -72,10 +67,12 @@ describe('initial test', function() {
       const option = { selector: '#tada-class' };
       const tada = new Tada(option);
       const nextSpy = sinon.spy();
-      tada.controller = { on: () => {}}
+      tada.controller = { on: () => {}};
       const eventSpy = sandbox.spy(tada.controller, 'on');
+
       //when
-      tada.on('next', nextSpy)
+      tada.on('next', nextSpy);
+
       //then
       expect(eventSpy.calledWith('next', nextSpy));
     });
